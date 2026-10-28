@@ -1,0 +1,43 @@
+name: miras-suleimenov-student-api
+
+services:
+  app:
+    build: .
+    image: miras-suleimenov-student-api:v1.0-miras-suleimenov
+    container_name: miras-suleimenov-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/studentdb
+      SPRING_DATASOURCE_USERNAME: miras
+      SPRING_DATASOURCE_PASSWORD: suleimenov123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - miras-suleimenov-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: miras-suleimenov-db
+    environment:
+      POSTGRES_DB: studentdb
+      POSTGRES_USER: miras
+      POSTGRES_PASSWORD: suleimenov123
+    volumes:
+      - miras-suleimenov-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U miras -d studentdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - miras-suleimenov-network
+
+networks:
+  miras-suleimenov-network:
+    driver: bridge
+
+volumes:
+  miras-suleimenov-pgdata:
