@@ -82,3 +82,4 @@ miras-suleimenov-student-api/
 - feat: implement Student CRUD operations
 - feat: add Docker and Docker Compose configuration
 - feat: improve CRUD — add 201 status on create and GET /api/students/info endpoint
+# trigger
