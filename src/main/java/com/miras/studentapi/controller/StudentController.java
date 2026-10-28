@@ -2,10 +2,12 @@ package com.miras.studentapi.controller;
 
 import com.miras.studentapi.model.Student;
 import com.miras.studentapi.service.StudentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/students")
@@ -31,7 +33,7 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> create(@RequestBody Student student) {
-        return ResponseEntity.ok(service.create(student));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(student));
     }
 
     @PutMapping("/{id}")
@@ -47,5 +49,15 @@ public class StudentController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<Map<String, String>> info() {
+        return ResponseEntity.ok(Map.of(
+                "developer", "Miras Suleimenov",
+                "group", "IT2-2313",
+                "id", "37233",
+                "version", "v1.0-miras-suleimenov"
+        ));
     }
 }
